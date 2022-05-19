@@ -24,9 +24,9 @@ insert into reservation (id, start_of_rental, end_of_rental, landlord_id, tenant
 insert into reservation (id, start_of_rental, end_of_rental, landlord_id, tenant_id, rental_place_id, cost) values (2, '2022-04-25', '2022-05-23', 2, 6, 2, 556.06);
 insert into reservation (id, start_of_rental, end_of_rental, landlord_id, tenant_id, rental_place_id, cost) values (3, '2022-04-04', '2022-05-22', 3, 7, 3, 1509.17);
 insert into reservation (id, start_of_rental, end_of_rental, landlord_id, tenant_id, rental_place_id, cost) values (4, '2022-04-16', '2022-05-06', 4, 8, 4, 9965.93);
-insert into reservation (id, start_of_rental, end_of_rental, landlord_id, tenant_id, rental_place_id, cost) values (5, '2022-04-04', '2022-05-30', 5, 9, 5, 9262.27);
+insert into reservation (id, start_of_rental, end_of_rental, landlord_id, tenant_id, rental_place_id, cost) values (5, '2022-04-04', '2022-05-10', 5, 9, 5, 9262.27);
 insert into reservation (id, start_of_rental, end_of_rental, landlord_id, tenant_id, rental_place_id, cost) values (6, '2022-04-08', '2022-05-05', 1, 9, 6, 5187.66);
 insert into reservation (id, start_of_rental, end_of_rental, landlord_id, tenant_id, rental_place_id, cost) values (7, '2022-04-23', '2022-05-21', 2, 7, 7, 9969.77);
 insert into reservation (id, start_of_rental, end_of_rental, landlord_id, tenant_id, rental_place_id, cost) values (8, '2022-04-05', '2022-05-05', 3, 8, 8, 8873.06);
 insert into reservation (id, start_of_rental, end_of_rental, landlord_id, tenant_id, rental_place_id, cost) values (9, '2022-04-01', '2022-05-14', 4, 9, 9, 2312.64);
-insert into reservation (id, start_of_rental, end_of_rental, landlord_id, tenant_id, rental_place_id, cost) values (10, '2022-04-02', '2022-05-19', 5, 10, 5, 8061.69);
+insert into reservation (id, start_of_rental, end_of_rental, landlord_id, tenant_id, rental_place_id, cost) values (10, '2022-05-12', '2022-05-19', 5, 10, 5, 8061.69);
