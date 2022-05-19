@@ -1,0 +1,32 @@
+insert into customer (id, name) values (1, 'Archie Fereday');
+insert into customer (id, name) values (2, 'Nannie Choppin');
+insert into customer (id, name) values (3, 'Philomena Meedendorpe');
+insert into customer (id, name) values (4, 'Theresita Wiggett');
+insert into customer (id, name) values (5, 'Agathe Billin');
+insert into customer (id, name) values (6, 'Dolorita Mattacks');
+insert into customer (id, name) values (7, 'Clementia Ferryn');
+insert into customer (id, name) values (8, 'Pat Heales');
+insert into customer (id, name) values (9, 'Oran McGray');
+insert into customer (id, name) values (10, 'Melba Hamfleet');
+
+insert into rental_place (id, name, unit_price, area, description) values (1, 'Daystar', 815.98, 35.9, 'convallis eget eleifend luctus ultricies eu nibh quisque id justo sit amet sapien dignissim vestibulum');
+insert into rental_place (id, name, unit_price, area, description) values (2, 'Judy', 407.61, 89.5, 'neque sapien placerat ante nulla justo aliquam quis turpis eget elit sodales scelerisque mauris sit amet eros suspendisse accumsan tortor quis turpis sed ante vivamus tortor duis mattis egestas metus aenean fermentum donec ut');
+insert into rental_place (id, name, unit_price, area, description) values (3, '1st', 624.14, 11.3, 'risus praesent lectus vestibulum quam sapien varius ut blandit non interdum in ante vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae duis faucibus accumsan odio curabitur convallis duis');
+insert into rental_place (id, name, unit_price, area, description) values (4, 'Aberg', 884.53, 1.7, 'dapibus augue vel accumsan tellus nisi eu orci mauris lacinia sapien quis libero nullam sit amet turpis elementum ligula vehicula consequat morbi a ipsum integer a nibh in');
+insert into rental_place (id, name, unit_price, area, description) values (5, 'Haas', 963.76, 38.7, 'sit amet cursus id turpis integer aliquet massa id lobortis convallis tortor risus dapibus augue vel accumsan tellus nisi eu orci mauris lacinia sapien quis libero nullam sit amet turpis elementum ligula vehicula consequat');
+insert into rental_place (id, name, unit_price, area, description) values (6, 'Helena', 635.86, 36.2, 'parturient montes nascetur ridiculus mus etiam vel augue vestibulum rutrum rutrum neque aenean auctor gravida sem praesent id massa id nisl venenatis lacinia aenean sit amet justo morbi ut odio cras mi pede malesuada in imperdiet et commodo vulputate justo in blandit ultrices enim lorem ipsum dolor sit amet');
+insert into rental_place (id, name, unit_price, area, description) values (7, 'Gina', 218.32, 97.4, 'lectus pellentesque eget nunc donec quis orci eget orci vehicula condimentum curabitur in libero ut massa volutpat convallis morbi odio odio elementum eu interdum eu');
+insert into rental_place (id, name, unit_price, area, description) values (8, 'Dovetail', 111.49, 11.1, 'justo maecenas rhoncus aliquam lacus morbi quis tortor id nulla ultrices aliquet maecenas leo odio condimentum id luctus nec molestie');
+insert into rental_place (id, name, unit_price, area, description) values (9, 'Golden Leaf', 142.01, 47.4, 'primis in faucibus orci luctus et ultrices posuere cubilia curae donec pharetra magna vestibulum aliquet ultrices erat tortor sollicitudin mi');
+insert into rental_place (id, name, unit_price, area, description) values (10, 'Loftsgordon', 273.74, 20.0, 'dis parturient montes nascetur ridiculus mus etiam vel augue vestibulum rutrum rutrum neque aenean auctor gravida sem praesent id massa id nisl venenatis lacinia aenean sit amet justo morbi ut odio cras mi pede malesuada in imperdiet et commodo');
+
+insert into reservation (id, start_of_rental, end_of_rental, landlord_id, tenant_id, rental_place_id, cost) values (1, '2022-04-15', '2022-05-10', 1, 6, 1, 5819.59);
+insert into reservation (id, start_of_rental, end_of_rental, landlord_id, tenant_id, rental_place_id, cost) values (2, '2022-04-25', '2022-05-23', 2, 6, 2, 556.06);
+insert into reservation (id, start_of_rental, end_of_rental, landlord_id, tenant_id, rental_place_id, cost) values (3, '2022-04-04', '2022-05-22', 3, 7, 3, 1509.17);
+insert into reservation (id, start_of_rental, end_of_rental, landlord_id, tenant_id, rental_place_id, cost) values (4, '2022-04-16', '2022-05-06', 4, 8, 4, 9965.93);
+insert into reservation (id, start_of_rental, end_of_rental, landlord_id, tenant_id, rental_place_id, cost) values (5, '2022-04-04', '2022-05-30', 5, 9, 5, 9262.27);
+insert into reservation (id, start_of_rental, end_of_rental, landlord_id, tenant_id, rental_place_id, cost) values (6, '2022-04-08', '2022-05-05', 1, 9, 6, 5187.66);
+insert into reservation (id, start_of_rental, end_of_rental, landlord_id, tenant_id, rental_place_id, cost) values (7, '2022-04-23', '2022-05-21', 2, 7, 7, 9969.77);
+insert into reservation (id, start_of_rental, end_of_rental, landlord_id, tenant_id, rental_place_id, cost) values (8, '2022-04-05', '2022-05-05', 3, 8, 8, 8873.06);
+insert into reservation (id, start_of_rental, end_of_rental, landlord_id, tenant_id, rental_place_id, cost) values (9, '2022-04-01', '2022-05-14', 4, 9, 9, 2312.64);
+insert into reservation (id, start_of_rental, end_of_rental, landlord_id, tenant_id, rental_place_id, cost) values (10, '2022-04-02', '2022-05-19', 5, 10, 5, 8061.69);

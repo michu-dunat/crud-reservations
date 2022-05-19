@@ -7,7 +7,6 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -16,21 +15,24 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @ToString
-public class Customer {
+public class RentalPlace {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NotNull
     private String name;
+    @NotNull
+    private Float unitPrice;
+    @NotNull
+    private Float area;
+    @NotNull
+    @Column(length = 10000)
+    private String description;
 
-    @OneToMany(mappedBy = "tenant")
-    @JsonIgnore
+    @OneToMany(mappedBy = "rentalPlace")
     @ToString.Exclude
-    private List<Reservation> reservationT;
-    @OneToMany(mappedBy = "landlord")
     @JsonIgnore
-    @ToString.Exclude
-    private List<Reservation> reservationL;
+    private List<Reservation> reservations;
 
 }
