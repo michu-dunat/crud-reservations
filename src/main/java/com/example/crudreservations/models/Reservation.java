@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.sql.Date;
 
 @javax.persistence.Entity
 @Getter
@@ -34,4 +35,12 @@ public class Reservation {
     @NotNull
     private Float cost;
 
+    public Reservation(Date startOfRental, Date endOfRental, Customer landlord, Customer tenant, RentalPlace rentalPlace, Float cost) {
+        this.startOfRental = startOfRental;
+        this.endOfRental = endOfRental;
+        this.landlord = landlord;
+        this.tenant = tenant;
+        this.rentalPlace = rentalPlace;
+        this.cost = cost;
+    }
 }

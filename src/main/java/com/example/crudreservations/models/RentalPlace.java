@@ -35,4 +35,7 @@ public class RentalPlace {
     @JsonIgnore
     private List<Reservation> reservations;
 
+    public RentalPlace(int id) {
+        this.id = id;
+    }
 }

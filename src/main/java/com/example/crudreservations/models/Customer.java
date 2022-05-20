@@ -33,4 +33,7 @@ public class Customer {
     @ToString.Exclude
     private List<Reservation> reservationL;
 
+    public Customer(int id) {
+        this.id = id;
+    }
 }
