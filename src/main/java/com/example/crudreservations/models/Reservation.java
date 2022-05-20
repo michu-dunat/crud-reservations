@@ -9,7 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
-@javax.persistence.Entity
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor

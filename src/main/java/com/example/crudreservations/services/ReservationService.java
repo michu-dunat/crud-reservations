@@ -21,7 +21,7 @@ public class ReservationService {
     private final CustomerRepository customerRepository;
     private final RentalPlaceRepository rentalPlaceRepository;
 
-    public ResponseEntity<Integer> makeReservation(ReservationDTO reservationDTO, int reservationIdToBeUpdated) {
+    public ResponseEntity<Integer> saveReservation(ReservationDTO reservationDTO, int reservationIdToBeUpdated) {
         if(reservationDTO.getLandlordId() == reservationDTO.getTenantId()) {
             return new ResponseEntity<>(500, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -41,7 +41,7 @@ public class ReservationService {
         }
 
         ArrayList<Reservation> reservations =
-                new ArrayList<>(reservationRepository.check(reservationDTO.getRentalPlaceId(),
+                new ArrayList<>(reservationRepository.getReservationsOfRentalPlaceWhereGivenDatesAreBetweenSavedDates(reservationDTO.getRentalPlaceId(),
                         reservationDTO.getStartOfRental(), reservationDTO.getEndOfRental()));
 
         if(reservationIdToBeUpdated > 0) {

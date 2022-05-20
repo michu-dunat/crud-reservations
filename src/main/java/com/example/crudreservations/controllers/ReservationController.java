@@ -38,13 +38,13 @@ public class ReservationController {
     }
 
     @PostMapping("/reservations/add")
-    public ResponseEntity<Integer> bookReservation(@RequestBody ReservationDTO reservationDTO) {
-        return reservationService.makeReservation(reservationDTO, -1);
+    public ResponseEntity<Integer> addReservation(@RequestBody ReservationDTO reservationDTO) {
+        return reservationService.saveReservation(reservationDTO, -1);
     }
 
     @PutMapping("/reservations/update/{id}")
     public ResponseEntity<Integer> updateReservation(@PathVariable int id, @RequestBody ReservationDTO reservationDTO) {
-        return reservationService.makeReservation(reservationDTO, id);
+        return reservationService.saveReservation(reservationDTO, id);
     }
 
 }
