@@ -20,9 +20,9 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @NotNull
-    private java.sql.Date startOfRental;
+    private Date startOfRental;
     @NotNull
-    private java.sql.Date endOfRental;
+    private Date endOfRental;
     @ManyToOne
     @NotNull
     private Customer landlord;
