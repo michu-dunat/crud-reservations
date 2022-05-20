@@ -39,12 +39,12 @@ public class ReservationController {
 
     @PostMapping("/reservations/add")
     public ResponseEntity<Integer> bookReservation(@RequestBody ReservationDTO reservationDTO) {
-        return reservationService.makeReservation(reservationDTO);
+        return reservationService.makeReservation(reservationDTO, -1);
     }
 
     @PutMapping("/reservations/update/{id}")
     public ResponseEntity<Integer> updateReservation(@PathVariable int id, @RequestBody ReservationDTO reservationDTO) {
-        return new ResponseEntity<>(200, HttpStatus.OK);
+        return reservationService.makeReservation(reservationDTO, id);
     }
 
 }

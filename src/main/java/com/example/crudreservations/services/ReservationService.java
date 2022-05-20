@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+
 @Service
 @RequiredArgsConstructor
 public class ReservationService {
@@ -19,7 +21,7 @@ public class ReservationService {
     private final CustomerRepository customerRepository;
     private final RentalPlaceRepository rentalPlaceRepository;
 
-    public ResponseEntity<Integer> makeReservation(ReservationDTO reservationDTO) {
+    public ResponseEntity<Integer> makeReservation(ReservationDTO reservationDTO, int reservationIdToBeUpdated) {
         if(reservationDTO.getLandlordId() == reservationDTO.getTenantId()) {
             return new ResponseEntity<>(500, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -38,16 +40,34 @@ public class ReservationService {
             return new ResponseEntity<>(500, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        if(reservationRepository.check(reservationDTO.getRentalPlaceId(), reservationDTO.getStartOfRental(), reservationDTO.getEndOfRental()) > 0) {
+        ArrayList<Reservation> reservations =
+                new ArrayList<>(reservationRepository.check(reservationDTO.getRentalPlaceId(),
+                        reservationDTO.getStartOfRental(), reservationDTO.getEndOfRental()));
+
+        if(reservationIdToBeUpdated > 0) {
+            if(reservations.size() > 1) {
+                return new ResponseEntity<>(500, HttpStatus.INTERNAL_SERVER_ERROR);
+
+            } else if (reservations.size() == 1) {
+                if (reservations.get(0).getId() != reservationIdToBeUpdated) {
+                    return new ResponseEntity<>(500, HttpStatus.INTERNAL_SERVER_ERROR);
+
+                }
+            }
+        } else {
+        if(reservations.size() > 0) {
             return new ResponseEntity<>(500, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
+        }
         Customer tenant = new Customer(reservationDTO.getTenantId());
         Customer landlord = new Customer(reservationDTO.getLandlordId());
         RentalPlace rentalPlace = new RentalPlace(reservationDTO.getRentalPlaceId());
 
         Reservation reservation = new Reservation(reservationDTO.getStartOfRental(), reservationDTO.getEndOfRental(),
                 tenant, landlord, rentalPlace, reservationDTO.getCost());
+        if(reservationIdToBeUpdated > 0) {
+            reservation.setId(reservationIdToBeUpdated);
+        }
 
         try {
             reservationRepository.save(reservation);
