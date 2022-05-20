@@ -22,18 +22,18 @@ public class ReservationService {
     private final CustomerRepository customerRepository;
     private final RentalPlaceRepository rentalPlaceRepository;
 
-    public ResponseEntity<Integer> saveReservation(ReservationDTO reservationDTO, int reservationIdToBeUpdated) {
+    public ResponseEntity<String> saveReservation(ReservationDTO reservationDTO, int reservationIdToBeUpdated) {
         if(checkIfTenantAndLandlordAreTheSamePerson(reservationDTO)) {
-            return new ResponseEntity<>(500, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Tenant and landlord are the same person", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         if(checkIfDatesAreValid(reservationDTO)) {
-            return new ResponseEntity<>(500, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Dates are not valid", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         if(reservationDTO.getCost() < 0) {
-            return new ResponseEntity<>(500, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Cost is negative", HttpStatus.INTERNAL_SERVER_ERROR);
         }
         if(checkIfIdsOfCustomersAndRentalPlaceExist(reservationDTO)) {
-            return new ResponseEntity<>(500, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Tenant, landlord or rental place does not exist", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         ArrayList<Reservation> reservations =
@@ -43,13 +43,13 @@ public class ReservationService {
 
         if(reservationIdToBeUpdated > 0) {
             if(reservations.size() > 1) {
-                return new ResponseEntity<>(500, HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>("This place is already rented between given dates", HttpStatus.INTERNAL_SERVER_ERROR);
             } else if (reservations.size() == 1 && reservations.get(0).getId() != reservationIdToBeUpdated) {
-                    return new ResponseEntity<>(500, HttpStatus.INTERNAL_SERVER_ERROR);
+                    return new ResponseEntity<>("This place is already rented between given dates", HttpStatus.INTERNAL_SERVER_ERROR);
             }
         } else {
             if(reservations.size() > 0) {
-                return new ResponseEntity<>(500, HttpStatus.INTERNAL_SERVER_ERROR);
+                return new ResponseEntity<>("This place is already rented between given dates", HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
 
@@ -59,10 +59,10 @@ public class ReservationService {
         try {
             reservationRepository.save(reservation);
         } catch (Exception e) {
-            return new ResponseEntity<>(500, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Error occurred while saving to database", HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return new ResponseEntity<>(200, HttpStatus.OK);
+        return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 
     private Reservation createReservation(ReservationDTO reservationDTO) {
