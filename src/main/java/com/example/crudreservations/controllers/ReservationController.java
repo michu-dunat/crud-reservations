@@ -14,27 +14,24 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 public class ReservationController {
-    private final ReservationRepository reservationRepository;
     private final ReservationService reservationService;
 
     @GetMapping(value = "/reservations/renal-place")
     public List<Reservation> getAllReservationsForGivenRentalObject(@RequestParam int id) {
-        return reservationRepository.findAllByRentalPlaceId(id);
+        return reservationService.getReservationList(id);
     }
 
     @GetMapping(value = "/reservations/tenants")
     public List<Reservation> getAllReservationsForGivenTenant(@RequestParam String name) {
-        return reservationRepository.findAllByTenantName(name);
+        return reservationService.getReservationList(name);
     }
 
     @DeleteMapping("/reservations/delete/{id}")
     public ResponseEntity<Integer> deleteReservation(@PathVariable int id) {
-        try {
-            reservationRepository.deleteById(id);
-        } catch (Exception e) {
-            return new ResponseEntity<>(500, HttpStatus.INTERNAL_SERVER_ERROR);
+        if(reservationService.deleteReservation(id)) {
+            return new ResponseEntity<>(200, HttpStatus.OK);
         }
-        return new ResponseEntity<>(200, HttpStatus.OK);
+        return new ResponseEntity<>(500, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @PostMapping("/reservations/add")

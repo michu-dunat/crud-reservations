@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -22,52 +23,38 @@ public class ReservationService {
     private final RentalPlaceRepository rentalPlaceRepository;
 
     public ResponseEntity<Integer> saveReservation(ReservationDTO reservationDTO, int reservationIdToBeUpdated) {
-        if(reservationDTO.getLandlordId() == reservationDTO.getTenantId()) {
+        if(checkIfTenantAndLandlordAreTheSamePerson(reservationDTO)) {
             return new ResponseEntity<>(500, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        if(reservationDTO.getStartOfRental().after(reservationDTO.getEndOfRental()) || reservationDTO.getStartOfRental().equals(reservationDTO.getEndOfRental())) {
+        if(checkIfDatesAreValid(reservationDTO)) {
             return new ResponseEntity<>(500, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
         if(reservationDTO.getCost() < 0) {
             return new ResponseEntity<>(500, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-        if(!customerRepository.existsById(reservationDTO.getLandlordId()) ||
-                !customerRepository.existsById(reservationDTO.getTenantId()) ||
-        !rentalPlaceRepository.existsById(reservationDTO.getRentalPlaceId())) {
+        if(checkIfIdsOfCustomersAndRentalPlaceExist(reservationDTO)) {
             return new ResponseEntity<>(500, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         ArrayList<Reservation> reservations =
-                new ArrayList<>(reservationRepository.getReservationsOfRentalPlaceWhereGivenDatesAreBetweenSavedDates(reservationDTO.getRentalPlaceId(),
-                        reservationDTO.getStartOfRental(), reservationDTO.getEndOfRental()));
+                new ArrayList<>(reservationRepository.getReservationsOfRentalPlaceWhereGivenDatesAreBetweenSavedDates(
+                        reservationDTO.getRentalPlaceId(), reservationDTO.getStartOfRental(),
+                        reservationDTO.getEndOfRental()));
 
         if(reservationIdToBeUpdated > 0) {
             if(reservations.size() > 1) {
                 return new ResponseEntity<>(500, HttpStatus.INTERNAL_SERVER_ERROR);
-
-            } else if (reservations.size() == 1) {
-                if (reservations.get(0).getId() != reservationIdToBeUpdated) {
+            } else if (reservations.size() == 1 && reservations.get(0).getId() != reservationIdToBeUpdated) {
                     return new ResponseEntity<>(500, HttpStatus.INTERNAL_SERVER_ERROR);
-
-                }
             }
         } else {
-        if(reservations.size() > 0) {
-            return new ResponseEntity<>(500, HttpStatus.INTERNAL_SERVER_ERROR);
+            if(reservations.size() > 0) {
+                return new ResponseEntity<>(500, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         }
-        }
-        Customer tenant = new Customer(reservationDTO.getTenantId());
-        Customer landlord = new Customer(reservationDTO.getLandlordId());
-        RentalPlace rentalPlace = new RentalPlace(reservationDTO.getRentalPlaceId());
 
-        Reservation reservation = new Reservation(reservationDTO.getStartOfRental(), reservationDTO.getEndOfRental(),
-                tenant, landlord, rentalPlace, reservationDTO.getCost());
-        if(reservationIdToBeUpdated > 0) {
-            reservation.setId(reservationIdToBeUpdated);
-        }
+        Reservation reservation = createReservation(reservationDTO);
+        setReservationIdForUpdating(reservation, reservationIdToBeUpdated);
 
         try {
             reservationRepository.save(reservation);
@@ -78,4 +65,50 @@ public class ReservationService {
         return new ResponseEntity<>(200, HttpStatus.OK);
     }
 
+    private Reservation createReservation(ReservationDTO reservationDTO) {
+        Customer tenant = new Customer(reservationDTO.getTenantId());
+        Customer landlord = new Customer(reservationDTO.getLandlordId());
+        RentalPlace rentalPlace = new RentalPlace(reservationDTO.getRentalPlaceId());
+
+        return new Reservation(reservationDTO.getStartOfRental(), reservationDTO.getEndOfRental(),
+                tenant, landlord, rentalPlace, reservationDTO.getCost());
+    }
+
+    private void setReservationIdForUpdating(Reservation reservation, int id) {
+        if(id > 0) {
+            reservation.setId(id);
+        }
+    }
+
+    private boolean checkIfTenantAndLandlordAreTheSamePerson(ReservationDTO reservationDTO) {
+        return reservationDTO.getLandlordId() == reservationDTO.getTenantId();
+    }
+
+    private boolean checkIfDatesAreValid(ReservationDTO reservationDTO) {
+        return reservationDTO.getStartOfRental().after(reservationDTO.getEndOfRental()) ||
+                reservationDTO.getStartOfRental().equals(reservationDTO.getEndOfRental());
+    }
+
+    private boolean checkIfIdsOfCustomersAndRentalPlaceExist(ReservationDTO reservationDTO) {
+        return !customerRepository.existsById(reservationDTO.getLandlordId()) ||
+                !customerRepository.existsById(reservationDTO.getTenantId()) ||
+                !rentalPlaceRepository.existsById(reservationDTO.getRentalPlaceId());
+    }
+
+    public List<Reservation> getReservationList(int rentalPlaceId) {
+        return reservationRepository.findAllByRentalPlaceId(rentalPlaceId);
+    }
+
+    public List<Reservation> getReservationList(String tenantName) {
+        return reservationRepository.findAllByTenantName(tenantName);
+    }
+
+    public boolean deleteReservation(int id) {
+        try {
+            reservationRepository.deleteById(id);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
 }
